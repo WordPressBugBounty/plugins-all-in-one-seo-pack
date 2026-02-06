@@ -63,6 +63,11 @@ class Query {
 		// then by post modified date (most recently updated at the top).
 		$orderBy = 'ap.priority DESC, p.post_modified_gmt DESC';
 
+		// For llms sitemap type, prioritize posts with pillar_content = 1
+		if ( 'llms' === aioseo()->sitemap->type ) {
+			$orderBy = 'ap.pillar_content DESC, ' . $orderBy;
+		}
+
 		// Override defaults if passed as additional arg.
 		foreach ( $additionalArgs as $name => $value ) {
 			// Attachments need to be fetched with all their fields because we need to get their post parent further down the line.
@@ -80,7 +85,7 @@ class Query {
 			->select( $fields )
 			->leftJoin( 'aioseo_posts as ap', 'ap.post_id = p.ID' )
 			->where( 'p.post_status', 'attachment' === $includedPostTypes ? 'inherit' : 'publish' )
-			->whereRaw( "p.post_type IN ( '$includedPostTypes' )" );
+			->whereIn( 'p.post_type', $postTypesArray );
 
 		$homePageId = (int) get_option( 'page_on_front' );
 
@@ -123,7 +128,7 @@ class Query {
 		}
 
 		if ( $maxAge ) {
-			$query->whereRaw( "( `p`.`post_date_gmt` >= '$maxAge' )" );
+			$query->where( 'p.post_date_gmt >=', $maxAge );
 		}
 
 		if (
@@ -145,7 +150,7 @@ class Query {
 			if ( in_array( 'page', $postTypesArray, true ) ) {
 				// Exclude the blog page from the pages post type.
 				if ( $blogPageId ) {
-					$query->whereRaw( "`p`.`ID` != $blogPageId" );
+					$query->where( 'p.ID !=', $blogPageId );
 				}
 
 				// Custom order by statement to always move the home page to the top.
@@ -245,10 +250,11 @@ class Query {
 			foreach ( $hiddenProducts as $hiddenProduct ) {
 				$hiddenProductIds[] = (int) $hiddenProduct->object_id;
 			}
-			$hiddenProductIds = esc_sql( implode( ', ', $hiddenProductIds ) );
-		}
 
-		$query->whereRaw( "p.ID NOT IN ( $hiddenProductIds )" );
+			if ( ! empty( $hiddenProductIds ) ) {
+				$query->whereNotIn( 'p.ID', $hiddenProductIds );
+			}
+		}
 
 		return $query;
 	}
@@ -346,24 +352,18 @@ class Query {
 			->start( aioseo()->core->db->db->terms . ' as t', true )
 			->select( $fields )
 			->leftJoin( 'term_taxonomy as tt', '`tt`.`term_id` = `t`.`term_id`' )
+			->where( 'tt.taxonomy', $taxonomy )
 			->whereRaw( "
-			( `t`.`term_id` IN
 				(
-					SELECT `tt`.`term_id`
-					FROM `$termTaxonomyTable` as tt
-					WHERE `tt`.`taxonomy` = '$taxonomy'
-					AND 
-						(
-							`tt`.`count` > 0 OR
-							EXISTS (
-								SELECT 1
-								FROM `$termTaxonomyTable` as tt2
-								WHERE `tt2`.`parent` = `tt`.`term_id` 
-								AND `tt2`.`count` > 0
-							)
-						)
+					`tt`.`count` > 0 OR
+					EXISTS (
+						SELECT 1
+						FROM `$termTaxonomyTable` as tt2
+						WHERE `tt2`.`parent` = `tt`.`term_id` 
+						AND `tt2`.`count` > 0
+					)
 				)
-			)" );
+			" );
 
 		$excludedTerms = aioseo()->sitemap->helpers->excludedTerms();
 		if ( $excludedTerms ) {

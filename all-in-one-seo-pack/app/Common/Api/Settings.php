@@ -35,6 +35,20 @@ class Settings {
 	public static function getOptions( $request ) {
 		$siteId = (int) $request->get_param( 'siteId' );
 		if ( $siteId ) {
+			// Ensure the user has access to the target site.
+			if (
+				is_multisite() &&
+				(
+					! is_user_member_of_blog( get_current_user_id(), $siteId ) &&
+					! is_super_admin()
+				)
+			) {
+				return new \WP_REST_Response( [
+					'success' => false,
+					'message' => 'You do not have permission to access this site.'
+				], 403 );
+			}
+
 			aioseo()->helpers->switchToBlog( $siteId );
 
 			// Re-initialize the options for this site.
@@ -176,11 +190,12 @@ class Settings {
 	 * @return \WP_REST_Response          The response.
 	 */
 	public static function saveChanges( $request ) {
-		$body           = $request->get_json_params();
-		$options        = ! empty( $body['options'] ) ? $body['options'] : [];
-		$dynamicOptions = ! empty( $body['dynamicOptions'] ) ? $body['dynamicOptions'] : [];
-		$network        = ! empty( $body['network'] ) ? (bool) $body['network'] : false;
-		$networkOptions = ! empty( $body['networkOptions'] ) ? $body['networkOptions'] : [];
+		$body            = $request->get_json_params();
+		$options         = ! empty( $body['options'] ) ? $body['options'] : [];
+		$dynamicOptions  = ! empty( $body['dynamicOptions'] ) ? $body['dynamicOptions'] : [];
+		$network         = ! empty( $body['network'] ) ? (bool) $body['network'] : false;
+		$networkOptions  = ! empty( $body['networkOptions'] ) ? $body['networkOptions'] : [];
+		$redirectOptions = ! empty( $body['redirectOptions'] ) ? $body['redirectOptions'] : [];
 
 		// If this is the network admin, reset the options.
 		if ( $network ) {
@@ -188,6 +203,10 @@ class Settings {
 		} else {
 			aioseo()->options->sanitizeAndSave( $options );
 			aioseo()->dynamicOptions->sanitizeAndSave( $dynamicOptions );
+
+			if ( ! empty( aioseo()->redirects ) ) {
+				aioseo()->redirects->options->sanitizeAndSave( $redirectOptions );
+			}
 		}
 
 		// Re-initialize notices.
@@ -225,6 +244,11 @@ class Settings {
 					aioseo()->options->tools->robots->reset();
 					aioseo()->options->searchAppearance->advanced->unwantedBots->reset();
 					aioseo()->options->searchAppearance->advanced->searchCleanup->settings->preventCrawling = false;
+					break;
+				case 'redirects':
+					if ( ! empty( aioseo()->redirects ) ) {
+						aioseo()->redirects->options->reset();
+					}
 					break;
 				default:
 					if ( 'searchAppearance' === $setting ) {
@@ -451,10 +475,10 @@ class Settings {
 			'postOptions' => null
 		];
 
-		$rows = str_getcsv( $fileContent, "\n" );
+		$rows = str_getcsv( $fileContent, "\n", '"', '\\' );
 
 		// Get the first row to check if the file has post_id or term_id.
-		$header = str_getcsv( $rows[0], ',' );
+		$header = str_getcsv( $rows[0], ',', '"', '\\' );
 		$header = aioseo()->helpers->sanitizeOption( $header );
 
 		// Check if the file has post_id or term_id.
@@ -482,7 +506,7 @@ class Settings {
 
 		foreach ( $rows as $row ) {
 			$row = str_replace( '\\""', '\\"', $row );
-			$row = str_getcsv( $row, ',' );
+			$row = str_getcsv( $row, ',', '"', '\\' );
 
 			foreach ( $row as $key => $value ) {
 				$key = aioseo()->helpers->sanitizeOption( $key );
@@ -586,6 +610,20 @@ class Settings {
 		$siteId          = (int) ( $body['siteId'] ?? get_current_blog_id() );
 		$contentPostType = null;
 		$return          = true;
+
+		// Ensure the user has access to the target site.
+		if (
+			is_multisite() &&
+			(
+				! is_user_member_of_blog( get_current_user_id(), $siteId ) &&
+				! is_super_admin()
+			)
+		) {
+			return new \WP_REST_Response( [
+				'success' => false,
+				'message' => 'You do not have permission to export data for this site.'
+			], 403 );
+		}
 
 		try {
 			aioseo()->helpers->switchToBlog( $siteId );
@@ -744,6 +782,20 @@ class Settings {
 		$siteId        = ! empty( $body['siteId'] ) ? intval( $body['siteId'] ) : false;
 		$siteOrNetwork = empty( $siteId ) ? aioseo()->helpers->getNetworkId() : $siteId; // If we don't have a siteId, we will use the networkId.
 
+		// Ensure the user has access to the target site.
+		if (
+			$siteId &&
+			is_multisite() &&
+			(
+				! is_user_member_of_blog( get_current_user_id(), $siteId ) &&
+				! is_super_admin()
+		) ) {
+			return new \WP_REST_Response( [
+				'success' => false,
+				'message' => 'You do not have permission to access this site.'
+			], 403 );
+		}
+
 		// When on network admin page and no siteId, it is supposed to perform on network level.
 		if ( $network && 'clear-cache' === $action && empty( $siteId ) ) {
 			aioseo()->core->networkCache->clear();
@@ -769,7 +821,7 @@ class Settings {
 				break;
 			case 'reset-data':
 				aioseo()->uninstall->dropData( true );
-				aioseo()->internalOptions->database->installedTables = '';
+				aioseo()->core->cache->delete( 'db_schema' );
 				aioseo()->internalOptions->internal->lastActiveVersion = '4.0.0';
 				aioseo()->internalOptions->save( true );
 				aioseo()->updates->addInitialCustomTablesForV4();
@@ -780,12 +832,12 @@ class Settings {
 				break;
 			// Migrations
 			case 'rerun-migrations':
-				aioseo()->internalOptions->database->installedTables   = '';
+				aioseo()->core->cache->delete( 'db_schema' );
 				aioseo()->internalOptions->internal->lastActiveVersion = '4.0.0';
 				aioseo()->internalOptions->save( true );
 				break;
 			case 'rerun-addon-migrations':
-				aioseo()->internalOptions->database->installedTables = '';
+				aioseo()->core->cache->delete( 'db_schema' );
 
 				foreach ( $data as $sku ) {
 					$convertedSku = aioseo()->helpers->dashesToCamelCase( $sku );

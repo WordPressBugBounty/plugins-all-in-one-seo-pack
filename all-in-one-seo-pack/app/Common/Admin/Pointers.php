@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use AIOSEO\Plugin\Common\Models;
-
 /**
  * Handles the pointers for the admin.
  *
@@ -50,7 +48,7 @@ class Pointers {
 		if (
 			! isset( $_GET['aioseo-dismiss-pointer'] ) ||
 			! isset( $_GET['aioseo-dismiss-pointer-nonce'] ) ||
-			! wp_verify_nonce( $_GET['aioseo-dismiss-pointer-nonce'], 'aioseo-dismiss-pointer' )
+			! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['aioseo-dismiss-pointer-nonce'] ) ), 'aioseo-dismiss-pointer' )
 		) {
 			return;
 		}
@@ -82,30 +80,32 @@ class Pointers {
 		?>
 		<script>
 			jQuery( document ).ready( function( $ ) {
-				var isClosed = false;
-				var pointer  = $( '#toplevel_page_aioseo > a' ).pointer( {
+				const $menuItem = $( '#toplevel_page_aioseo' );
+				const $pointer  = $menuItem.pointer( {
 					content :
-						"<h3><?php esc_html_e( $args['title'], 'all-in-one-seo-pack' ); ?><\/h3>" +
-						"<h4><?php esc_html_e( $args['subtitle'], 'all-in-one-seo-pack' ); ?><\/h4>" +
-						"<p><?php esc_html_e( $args['content'], 'all-in-one-seo-pack' ); ?><\/p>" +
+						"<h3><?php esc_html( $args['title'], 'all-in-one-seo-pack' ); ?><\/h3>" +
+						"<h4><?php esc_html( $args['subtitle'], 'all-in-one-seo-pack' ); ?><\/h4>" +
+						"<p><?php esc_html( $args['content'], 'all-in-one-seo-pack' ); ?><\/p>" +
 						"<?php
 							echo sprintf(
 								'<p><a class=\"button button-primary\" href=\"%s\">%s</a></p>',
 								esc_attr( esc_url( $args['url'] ) ),
-								esc_html__( $args['button'], 'all-in-one-seo-pack' )
+								esc_html( $args['button'], 'all-in-one-seo-pack' )
 							);
 						?>",
 					position : {
 						edge  : <?php echo is_rtl() ? "'right'" : "'left'"; ?>,
 						align : 'center'
 					},
-					pointerWidth : 420,
+					pointerWidth: 420,
 					show: function(event, el) {
-						el.pointer.css({'position':'fixed'});
 						el.pointer.addClass('aioseo-wp-pointer');
+						$menuItem.addClass('aioseo-pointer-active');
 					},
 					close : function() {
-						isClosed = true;
+						setTimeout(() => {
+							$menuItem.removeClass('aioseo-pointer-active');
+						}, 300);
 						jQuery.get(
 							window.location.href,
 							{
@@ -115,6 +115,8 @@ class Pointers {
 						);
 					}
 				} ).pointer('open');
+
+				$menuItem.append($('body .wp-pointer.aioseo-wp-pointer'));
 			} );
 		</script>
 		<?php
@@ -130,6 +132,7 @@ class Pointers {
 	 */
 	public function registerKwRankTracker() {
 		if (
+			version_compare( aioseo()->version, '4.9.0', '>=' ) || // We only want to show this pointer up to 4.9.0.
 			! current_user_can( 'aioseo_search_statistics_settings' ) ||
 			(
 				is_object( aioseo()->license ) &&

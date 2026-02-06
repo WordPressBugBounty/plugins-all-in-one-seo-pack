@@ -175,7 +175,7 @@ trait Wp {
 			'include' => [] // Post types to include.
 		], $args );
 
-		$postTypes   = [];
+		$postTypes       = [];
 		$postTypeObjects = get_post_types( [], 'objects' );
 		foreach ( $postTypeObjects as $postTypeObject ) {
 			if ( ! is_post_type_viewable( $postTypeObject ) ) {
@@ -612,7 +612,7 @@ trait Wp {
 			return aioseo()->standalone->pageBuilderIntegrations[ $pageBuilder ]->getEditUrl( $postId );
 		}
 
-		return get_edit_post_link( $postId );
+		return get_edit_post_link( $postId, 'raw' );
 	}
 
 	/**
@@ -650,27 +650,7 @@ trait Wp {
 			return $capabilities[ $postType ];
 		}
 
-		$capabilityType = $postTypeObject->capability_type;
-		if ( ! is_array( $capabilityType ) ) {
-			$capabilityType = [
-				$capabilityType,
-				$capabilityType . 's'
-			];
-		}
-
-		// Singular base for meta capabilities, plural base for primitive capabilities.
-		list( $singularBase, $pluralBase ) = $capabilityType;
-
-		$capabilities[ $postType ] = [
-			'edit_post'          => 'edit_' . $singularBase,
-			'read_post'          => 'read_' . $singularBase,
-			'delete_post'        => 'delete_' . $singularBase,
-			'edit_posts'         => 'edit_' . $pluralBase,
-			'edit_others_posts'  => 'edit_others_' . $pluralBase,
-			'delete_posts'       => 'delete_' . $pluralBase,
-			'publish_posts'      => 'publish_' . $pluralBase,
-			'read_private_posts' => 'read_private_' . $pluralBase,
-		];
+		$capabilities[ $postType ] = (array) $postTypeObject->cap;
 
 		return $capabilities[ $postType ];
 	}
@@ -763,6 +743,21 @@ trait Wp {
 		}
 
 		return $json;
+	}
+
+	/**
+	 * Checks whether WordPress is currently serving a REST API request.
+	 *
+	 * @since 4.8.9
+	 *
+	 * @return bool Whether WordPress is currently serving a REST API request.
+	 */
+	public function isServingRestRequest() {
+		if ( function_exists( 'wp_is_serving_rest_request' ) ) {
+			return wp_is_serving_rest_request(); // phpcs:ignore WordPress.NamingConventions.ValidHookName, AIOSEO.WpFunctionUse.NewFunctions.wp_is_serving_rest_requestFound
+		}
+
+		return defined( 'REST_REQUEST' ) && REST_REQUEST;
 	}
 
 	/**
@@ -978,7 +973,7 @@ trait Wp {
 				return null;
 			}
 
-			$postTypeLabels[ $postType ] = get_post_type_labels( $postTypeObject );
+			$postTypeLabels[ $postType ] = $postTypeObject->labels;
 		}
 
 		return $postTypeLabels[ $postType ];
