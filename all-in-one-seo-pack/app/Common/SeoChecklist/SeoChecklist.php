@@ -542,9 +542,11 @@ class SeoChecklist {
 	 * @return bool True if audit has been run.
 	 */
 	protected function checkRunHomepageAudit() {
-		$seoAnalysis = aioseo()->internalOptions->internal->siteAnalysis->score;
+		if ( ! aioseo()->internalOptions->internal->has( 'siteAnalysis' ) ) {
+			return false;
+		}
 
-		return ! empty( $seoAnalysis );
+		return ! empty( aioseo()->internalOptions->internal->siteAnalysis->score );
 	}
 
 	/**

@@ -225,6 +225,8 @@ namespace AIOSEO\Plugin {
 			$this->helpers                = $this->pro ? new Pro\Utils\Helpers() : new Lite\Utils\Helpers(); // Needs to load before preUpdates.
 			$this->internalNetworkOptions = ( $this->pro && $this->helpers->isPluginNetworkActivated() ) ? new Pro\Options\InternalNetworkOptions() : new Common\Options\InternalNetworkOptions();
 			$this->internalOptions        = $this->pro ? new Pro\Options\InternalOptions() : new Lite\Options\InternalOptions();
+			$this->sensitiveOptions       = $this->pro ? new Pro\Options\SensitiveOptions() : new Lite\Options\SensitiveOptions();
+			$this->networkSensitiveOptions = ( $this->pro && $this->helpers->isPluginNetworkActivated() ) ? new Pro\Options\NetworkSensitiveOptions() : null;
 			$this->uninstall              = new Common\Main\Uninstall();
 
 			// Run pre-updates.
