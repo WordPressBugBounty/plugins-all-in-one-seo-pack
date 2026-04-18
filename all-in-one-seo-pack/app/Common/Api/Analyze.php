@@ -58,10 +58,6 @@ class Analyze {
 		}
 
 		if ( 200 !== $responseCode[ $analyzeOrHomeUrl ] || empty( $responseBody[ $analyzeOrHomeUrl ]['success'] ) || ! empty( $responseBody[ $analyzeOrHomeUrl ]['error'] ) ) {
-			if ( ! empty( $responseBody[ $analyzeOrHomeUrl ]['error'] ) && 'invalid-token' === $responseBody[ $analyzeOrHomeUrl ]['error'] ) {
-				aioseo()->internalOptions->internal->siteAnalysis->reset();
-			}
-
 			return new \WP_REST_Response( [
 				'success'  => false,
 				'response' => $responseBody[ $analyzeOrHomeUrl ]
@@ -111,14 +107,7 @@ class Analyze {
 
 		SeoAnalyzerResult::deleteByUrl( $analyzeUrl );
 
-		$competitors = aioseo()->internalOptions->internal->siteAnalysis->competitors;
-
-		unset( $competitors[ $analyzeUrl ] );
-
-		// Reset the competitors.
-		aioseo()->internalOptions->internal->siteAnalysis->competitors = $competitors;
-
-		return new \WP_REST_Response( $competitors, 200 );
+		return new \WP_REST_Response( SeoAnalyzerResult::getCompetitorsResults(), 200 );
 	}
 
 	/**

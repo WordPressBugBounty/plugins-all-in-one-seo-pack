@@ -49,7 +49,6 @@ trait Vue {
 		$this->setSeoRevisionsData();
 		$this->setAiBulkGenerateData();
 		$this->setToolsOrSettingsData();
-		$this->setPageBuilderData();
 		$this->setWritingAssistantData();
 		$this->setBreadcrumbsData();
 		$this->setSeoAnalyzerData();
@@ -648,26 +647,6 @@ trait Vue {
 				'sites'   => aioseo()->helpers->getSites(),
 				'backups' => []
 			];
-		}
-	}
-
-	/**
-	 * Set Vue Page Builder data.
-	 *
-	 * @since   4.4.9
-	 * @version 4.5.2 Renamed.
-	 *
-	 * @return void
-	 */
-	private function setPageBuilderData() {
-		if ( empty( $this->args['integration'] ) ) {
-			return;
-		}
-
-		if ( 'divi' === $this->args['integration'] ) {
-			// This needs to be dropped in order to prevent JavaScript errors in Divi's visual builder.
-			// Some of the data from the site analysis can contain HTML tags, e.g. the search preview, and somehow that causes JSON.parse to fail on our localized Vue data.
-			unset( $this->data['internalOptions']['internal']['siteAnalysis'] );
 		}
 	}
 

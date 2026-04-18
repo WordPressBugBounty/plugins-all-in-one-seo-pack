@@ -4,7 +4,7 @@ Tags: SEO, Google Search Console, XML Sitemap, meta description, schema
 Tested up to: 6.9
 Requires at least: 5.7
 Requires PHP: 7.2
-Stable tag: 4.9.6.1
+Stable tag: 4.9.6.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -231,6 +231,11 @@ AIOSEO&reg; is a registered trademark of Semper Plugins LLC. When writing about 
 
 == Changelog ==
 
+**New in Version 4.9.6.2**
+
+* Updated: Removed deprecated internal option references that could cause error on WooCommerce checkouts for some users.
+* Fixed: Possible fatal error when activating license via AIOSEO_LICENSE_KEY constant.
+
 **New in Version 4.9.6.1**
 
 * Fixed: Possible fatal error during WooCommerce checkout due to an internal option structure.
@@ -444,6 +449,6 @@ Additionally, AIOSEO can also provide you with data on the most frequently used 
 
 == Upgrade Notice ==
 
-= 4.9.6.1 =
+= 4.9.6.2 =
 
 This update adds major improvements and bug fixes.
