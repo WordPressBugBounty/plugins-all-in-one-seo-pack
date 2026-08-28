@@ -4,7 +4,7 @@ Tags: SEO, AI, schema, XML Sitemap, redirect
 Tested up to: 7.1
 Requires at least: 5.7
 Requires PHP: 7.2
-Stable tag: 5.0.1
+Stable tag: 5.0.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -192,6 +192,12 @@ AIOSEO&reg; is a registered trademark of Semper Plugins LLC. When writing about 
 
 == Changelog ==
 
+**New in Version 5.0.1.1**
+
+- Fixed: The link toolbar's nofollow, sponsored and UGC options were missing from the editor, and the Classic Editor's Insert/Edit Link dialog did not open.
+- Fixed: The link toolbar could crash the block editor on WordPress 6.5 and older.
+- Fixed: Links were saved with an empty title attribute, and the title field could be cut off in the link popover.
+
 **New in Version 5.0.1**
 
 - New: TruSEO content analysis for taxonomy terms, starting with WooCommerce product categories.
@@ -294,6 +300,10 @@ AIOSEO can easily help you get your sitemaps listed inside Google Search Console
 14. Link Assistant
 
 == Upgrade Notice ==
+
+= 5.0.1.1 =
+
+This update fixes the link toolbar in the editor.
 
 = 5.0.1 =
 
