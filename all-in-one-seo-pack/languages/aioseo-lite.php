@@ -573,7 +573,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/components/common/ai/CreditCounter.vue:103
 	__( 'A Pro license includes a full year\'s allowance that resets at renewal. Bundles are a one-off top-up.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:452
+	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:458
 	__( 'A redirect already exists for this source URL. To make changes, edit the original instead.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/utils/tags.js:55
@@ -998,6 +998,9 @@ $generated_i18n_strings = [
 
 	// Reference: /src/vue/pages/ai-insights/views/partials/ReportResults.vue:59
 	__( 'AI Engine Results', 'all-in-one-seo-pack' ),
+
+	// Reference: /src/vue/composables/AiContent.js:162
+	__( 'AI features have been disabled on this site.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/ai-insights/views/Main.vue:13
 	__( 'AI Suite', 'all-in-one-seo-pack' ),
@@ -4222,7 +4225,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/standalone/blocks/ai-assistant/components/PromptTemplateSelector.jsx:7
 	__( 'Generate How-To', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/ImageGeneratorModal.vue:54
+	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/ImageGeneratorModal.vue:50
 	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/utils.js:104
 	__( 'Generate Image', 'all-in-one-seo-pack' ),
 
@@ -4920,7 +4923,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/plugins/constants.js:1299
 	__( 'Ignore & pass parameters to the target', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:490
+	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:496
 	// Reference: /src/vue/plugins/constants.js:1297
 	__( 'Ignore all parameters', 'all-in-one-seo-pack' ),
 
@@ -5270,7 +5273,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/FaqsModal.vue:80
 	_n( 'Insert FAQ Block', 'Insert FAQ Blocks', 0, 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/ImageGeneratorModal.vue:40
+	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/ImageGeneratorModal.vue:36
 	__( 'Insert Image', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/KeyPointsModal.vue:81
@@ -6362,7 +6365,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/plugins/constants.js:1507
 	__( 'Moved Online', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:489
+	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:495
 	// Reference: /src/vue/plugins/constants.js:1275
 	__( 'Moved Permanently', 'all-in-one-seo-pack' ),
 
@@ -7405,7 +7408,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/components/common/core/SeoSiteAnalysisResults.vue:59
 	__( 'Performance SEO', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/redirects/Redirect.js:37
+	// Reference: /src/vue/composables/redirects/Redirect.js:52
 	__( 'Permalinks are not currently supported.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/plugins/constants.js:1280
@@ -7505,7 +7508,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/components/common/base/Input.vue:156
 	__( 'Please enter a valid email.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/redirects/Redirect.js:32
+	// Reference: /src/vue/composables/redirects/Redirect.js:47
 	__( 'Please enter a valid relative source URL.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/seo-analysis/views/AnalyzeCompetitorSite.vue:53
@@ -8968,7 +8971,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/standalone/local-business-seo/views/OpeningHours.vue:39
 	__( 'Show Opening Hours', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/ImageGeneratorModal.vue:39
+	// Reference: /src/vue/standalone/post-settings/views/partials/ai-content/ImageGeneratorModal.vue:35
 	__( 'Show Previous Results', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/standalone/blocks/html-sitemap/vue/SidebarOptions.vue:29
@@ -10073,7 +10076,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/composables/TruSeoScore.js:45
 	__( 'The readability score shows how easy your text is to read. Aim between 60-80 for most audiences. Easier-to-read content tends to keep readers engaged longer and can help lower your bounce rate. Simplify sentences and words to improve clarity.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/redirects/Redirect.js:23
+	// Reference: /src/vue/composables/redirects/Redirect.js:38
 	// Reference: /src/vue/pages/search-appearance/views/partials/query-arg-monitor/BlockArg.vue:28
 	__( 'The regex syntax is invalid.', 'all-in-one-seo-pack' ),
 
@@ -10424,7 +10427,7 @@ $generated_i18n_strings = [
 	// Translators: 1 - "PRO".
 	__( 'This is a %1$s Feature', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:503
+	// Reference: /src/vue/components/common/core/add-redirection/Index.vue:509
 	__( 'This is a duplicate of a URL you are already adding. You can only add unique source URLs.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/search-appearance/views/partials/crawl-cleanup/RssFeeds.vue:80
@@ -10492,7 +10495,7 @@ $generated_i18n_strings = [
 	// Translators: 1 - The page builder name, e.g. "Divi".
 	__( 'This post was built with %1$s, so the link can\'t be added here. Please add it from the %1$s editor.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/redirects/Redirect.js:40
+	// Reference: /src/vue/composables/redirects/Redirect.js:55
 	__( 'This redirect is supported using the Relocate Site feature under Full Site Redirect tab.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/tools/views/partials/robots-editor/RuleErrors.vue:56
@@ -10907,7 +10910,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/standalone/blocks/extend-paragraph-block.js:11
 	__( 'Type / to choose a block or // to use AI Assistant', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/components/common/base/Select.vue:93
+	// Reference: /src/vue/components/common/base/Select.vue:97
 	// Reference: /src/vue/components/common/core/ExcludePosts.vue:45
 	// Reference: /src/vue/components/common/html-sitemap/ExcludeObjects.vue:37
 	__( 'Type to search...', 'all-in-one-seo-pack' ),
@@ -11457,7 +11460,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/pages/search-statistics/views/partials/KeywordsTable.vue:166
 	__( 'View in Google', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/AiContent.js:163
+	// Reference: /src/vue/composables/AiContent.js:165
 	__( 'View Previous Results', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/ai-insights/views/partials/ReportsTable.vue:54
@@ -11564,7 +11567,7 @@ $generated_i18n_strings = [
 	// Translators: 1 - The Page Builder name, 2 - Opening anchor tag, 3 - Closing anchor tag.
 	__( 'We have detected that you are currently using the %1$s Page Builder. Please click %2$shere%3$s to use the %1$s editor for a most accurate result.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/AiContent.js:162
+	// Reference: /src/vue/composables/AiContent.js:164
 	__( 'We ran into an error. Please try again or contact support if it persists.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/search-appearance/views/partials/crawl-cleanup/SearchCleanup.vue:36
@@ -12123,6 +12126,9 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/pages/search-statistics/views/partials/TopKeywords.vue:26
 	// Reference: /src/vue/pages/search-statistics/views/partials/WinningLosingKeywords.vue:26
 	__( 'You don\'t have any keywords yet.', 'all-in-one-seo-pack' ),
+
+	// Reference: /src/vue/composables/AiContent.js:163
+	__( 'You don\'t have permission to edit the selected image with AI. It may be attached to a post you can\'t access.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/composables/link-assistant/Links.js:39
 	// Reference: /src/vue/pages/ai-bulk-generate/views/Main.vue:186
@@ -12828,10 +12834,10 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/components/common/core/SocialProfiles.vue:211
 	__( 'Your SoundCloud URL is invalid. Please check the format and try again.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/redirects/Redirect.js:57
+	// Reference: /src/vue/composables/redirects/Redirect.js:76
 	__( 'Your source is a protected path and cannot be redirected.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/redirects/Redirect.js:50
+	// Reference: /src/vue/composables/redirects/Redirect.js:69
 	__( 'Your source is the same as a target and this will create a loop.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/sitemaps/views/GeneralSitemap.vue:101
@@ -12897,7 +12903,7 @@ $generated_i18n_strings = [
 	// Reference: /src/app/tru-seo/scoring/assessments/seo/UrlKeywordAssessment.js:128
 	__( 'Your URL doesn\'t include your keyword. Edit the slug below the title to add it — a clean, keyword-rich URL tells search engines and readers what the page is about.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/composables/redirects/Redirect.js:28
+	// Reference: /src/vue/composables/redirects/Redirect.js:43
 	__( 'Your URL is invalid.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/components/common/base/Input.vue:133
